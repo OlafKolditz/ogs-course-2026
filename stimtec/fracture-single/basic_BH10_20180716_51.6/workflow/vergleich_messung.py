@@ -39,7 +39,7 @@ def main():
 
     fig, ax = plt.subplots(figsize=(10, 6.5))
 
-    pressure_cols = [c for c in sim.columns if c.startswith("pressure_")]
+    pressure_cols = [c for c in sim.columns if c == "pressure_(0,0)_Pa"]
     for col in pressure_cols:
         label = col.replace("pressure_", "").replace("_Pa", "")
         ax.plot(sim["time_s"], sim[col], label=f"Simulation x,y = {label}")
