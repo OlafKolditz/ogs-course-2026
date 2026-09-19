@@ -161,9 +161,8 @@
         <parameter>
             <name>source_term_parameter</name>
             <type>Function</type>
-            <expression>-1e-7/t</expression>
+            <expression>-1e-7/sqrt(t)</expression>
         </parameter>
-	
     </parameters>
     <process_variables>
         <process_variable>
@@ -188,8 +187,8 @@
                 <source_term>
                     <mesh>mesh_leakage</mesh>
                     <type>Volumetric</type>
-                    <parameter>leakage_term</parameter>
-                </source_term>				
+                    <parameter>source_term_parameter</parameter>
+                </source_term>
             </source_terms>			
         </process_variable>
     </process_variables>
