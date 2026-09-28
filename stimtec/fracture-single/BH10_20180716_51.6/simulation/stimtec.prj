@@ -44,7 +44,7 @@
                 <property>
                     <name>permeability</name>
                     <type>Constant</type>
-                    <value>1e-09</value>
+                    <value>1.408700e-14</value>
                 </property>
                 <property>
                     <name>reference_temperature</name>
@@ -54,7 +54,7 @@
                 <property>
                     <name>storage</name>
                     <type>Constant</type>
-                    <value>1e-6</value>
+                    <value>1.418700e-11</value>
                 </property>
             </properties>
         </medium>
@@ -116,24 +116,29 @@
             <value>1e-3</value>
         </parameter>
         <parameter>
-            <name>p_spatial</name>
-            <type>Constant</type>
-            <value>1</value>
-        </parameter>
-        <parameter>
             <name>pressure_source_term</name>
-            <type>CurveScaled</type>
-            <curve>pressure_source_term_temporal</curve>
-            <parameter>p_spatial</parameter>
+            <type>Function</type>
+            <expression>
+				(t &lt; 2663.923 ? 1.03227e-06 :
+				 t &lt; 2689.323 ? 4.20422763e-06 :
+			     t &lt; 2706.473 ? 1.04732717e-06 :
+                 t &lt; 2800.123 ? 2.70980080e-06 :
+                 t &lt; 2942.223 ? 2.20319288e-05 :
+                 t &lt; 3081.073 ? 2.73892046e-05:
+                 t &lt; 3195.523 ? 3.44347213e-05:
+                 t &lt; 3308.323 ? 5.11701849e-05 :
+                 t &lt; 3466.023 ? 6.94618453e-05 :
+                 t &lt; 3575.273 ? 8.71195366e-05 :
+                 t &lt; 3665.573 ? 1.00001857e-04 :
+                 t &lt; 3740.823 ? 1.11927032e-04 :
+                 t &lt; 3819.173 ? 1.31219025e-04 :
+                 t &lt; 3908.773 ? 1.46891195e-04 :
+                 t &lt; 3991.373 ? 1.61563301e-04 :
+                 t &lt; 4149.97 ? 9.76304533e-07 :
+                 0)
+			</expression>			
         </parameter>
     </parameters>
-	<curves>
-        <curve>
-            <name>pressure_source_term_temporal</name>
-            <coords>  2500  2650 2660 2800 2810 2950 2960 3070 3080 3200 3210 3300 3310 3450 3460 3580 3590 3650 3660 3730 3740 3810 3820 3900 3910 4000</coords>
-            <values> 0.001 0.001  0.6  0.6  1.2  1.2  1.7  1.7  2.0  2.0  3.0  3.0  4.0  4.0  5.0  5.0  6.0  6.0  7.0  7.0  8.0  8.0  9.0  9.0 10.0 10.0</values>
-        </curve>
-    </curves>
     <process_variables>
         <process_variable>
             <name>pressure</name>

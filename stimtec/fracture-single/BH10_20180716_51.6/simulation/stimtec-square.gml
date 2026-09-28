@@ -8,6 +8,7 @@
         <point id="2" x="50.0" y="50.0" z="0" name="outflow"/>
         <point id="3" x="-50.0"  y="50.0" z="0"/>
         <point id="4" x="0"  y="0" z="0" name="well"/>
+        <point id="5" x="50.0" y="0" z="0" name="right_mid"/>
     </points>
     <polylines>
         <polyline id="0" name="left">

@@ -43,8 +43,8 @@
                 </property>
                 <property>
                     <name>permeability</name>
-                    <type>Parameter</type>
-                    <parameter_name>kappa_temporal</parameter_name>
+                    <type>Constant</type>
+                    <value>1.464500e-14</value>
                 </property>
                 <property>
                     <name>reference_temperature</name>
@@ -54,7 +54,7 @@
                 <property>
                     <name>storage</name>
                     <type>Constant</type>
-                    <value>1e-6</value>
+                    <value>1.003600e-11</value>
                 </property>
             </properties>
         </medium>
@@ -86,7 +86,7 @@
         </processes>
         <output>
             <type>VTK</type>
-            <prefix>../results/stimtec</prefix>
+            <prefix>../results/stimtec_bc_right</prefix>
             <timesteps>
                 <pair>
                     <repeat>1</repeat>
@@ -106,6 +106,18 @@
             <value>0</value>
         </parameter>	
         <parameter>
+            <!-- Anfangsdruck = Randdruck (1 MPa), damit der Vergleich p - 1 MPa dem gemessenen Druckaufbau entspricht -->
+            <name>p_init</name>
+            <type>Constant</type>
+            <value>0</value>
+        </parameter>
+        <parameter>
+            <!-- konstanter Druck am rechten Rand (polyline "right") -->
+            <name>p_right</name>
+            <type>Constant</type>
+            <value>0</value>
+        </parameter>
+        <parameter>
             <name>constant_porosity_parameter</name>
             <type>Constant</type>
             <value>1</value>
@@ -119,67 +131,24 @@
             <name>pressure_source_term</name>
             <type>Function</type>
             <expression>
-                (t &lt; 2650 ? 0.001 :
-                 t &lt; 2660 ? 0.001 + (0.6 - 0.001) / (2660 - 2650) * (t - 2650) :
-                 t &lt; 2800 ? 0.6 :
-                 t &lt; 2810 ? 0.6 + (1.2 - 0.6) / (2810 - 2800) * (t - 2800) :
-                 t &lt; 2950 ? 1.2 :
-                 t &lt; 2960 ? 1.2 + (1.7 - 1.2) / (2960 - 2950) * (t - 2950) :
-                 t &lt; 3070 ? 1.7 :
-                 t &lt; 3080 ? 1.7 + (2.0 - 1.7) / (3080 - 3070) * (t - 3070) :
-                 t &lt; 3200 ? 2.0 :
-                 t &lt; 3210 ? 2.0 + (3.0 - 2.0) / (3210 - 3200) * (t - 3200) :
-                 t &lt; 3300 ? 3.0 :
-                 t &lt; 3310 ? 3.0 + (4.0 - 3.0) / (3310 - 3300) * (t - 3300) :
-                 t &lt; 3450 ? 4.0 :
-                 t &lt; 3460 ? 4.0 + (5.0 - 4.0) / (3460 - 3450) * (t - 3450) :
-                 t &lt; 3580 ? 5.0 :
-                 t &lt; 3590 ? 5.0 + (6.0 - 5.0) / (3590 - 3580) * (t - 3580) :
-                 t &lt; 3650 ? 6.0 :
-                 t &lt; 3660 ? 6.0 + (7.0 - 6.0) / (3660 - 3650) * (t - 3650) :
-                 t &lt; 3730 ? 7.0 :
-                 t &lt; 3740 ? 7.0 + (8.0 - 7.0) / (3740 - 3730) * (t - 3730) :
-                 t &lt; 3810 ? 8.0 :
-                 t &lt; 3820 ? 8.0 + (9.0 - 8.0) / (3820 - 3810) * (t - 3810) :
-                 t &lt; 3900 ? 9.0 :
-                 t &lt; 3910 ? 9.0 + (10.0 - 9.0) / (3910 - 3900) * (t - 3900) :
-                 10.0)
-            </expression>
-        </parameter>
-        <parameter>
-            <name>kappa_temporal</name>
-            <type>Function</type>
-            <!-- Kalibrierter Skalierungsfaktor S=1.3 auf Basis-Stufenfunktion
-                 (BASE_K_MIN=5.000e-11, BASE_K_MAX=1.000e-09):
-                 k_min = 6.500000e-11, k_max = 1.300000e-09 -->
-            <expression>
-                (t &lt; 2650 ? 6.500000e-11 :
-                 t &lt; 2660 ? 6.500000e-11 + (1.389839e-10 - 6.500000e-11) / (2660 - 2650) * (t - 2650) :
-                 t &lt; 2800 ? 1.389839e-10 :
-                 t &lt; 2810 ? 1.389839e-10 + (2.130913e-10 - 1.389839e-10) / (2810 - 2800) * (t - 2800) :
-                 t &lt; 2950 ? 2.130913e-10 :
-                 t &lt; 2960 ? 2.130913e-10 + (2.748475e-10 - 2.130913e-10) / (2960 - 2950) * (t - 2950) :
-                 t &lt; 3070 ? 2.748475e-10 :
-                 t &lt; 3080 ? 2.748475e-10 + (3.119012e-10 - 2.748475e-10) / (3080 - 3070) * (t - 3070) :
-                 t &lt; 3200 ? 3.119012e-10 :
-                 t &lt; 3210 ? 3.119012e-10 + (4.354135e-10 - 3.119012e-10) / (3210 - 3200) * (t - 3200) :
-                 t &lt; 3300 ? 4.354135e-10 :
-                 t &lt; 3310 ? 4.354135e-10 + (5.589259e-10 - 4.354135e-10) / (3310 - 3300) * (t - 3300) :
-                 t &lt; 3450 ? 5.589259e-10 :
-                 t &lt; 3460 ? 5.589259e-10 + (6.824382e-10 - 5.589259e-10) / (3460 - 3450) * (t - 3450) :
-                 t &lt; 3580 ? 6.824382e-10 :
-                 t &lt; 3590 ? 6.824382e-10 + (8.059506e-10 - 6.824382e-10) / (3590 - 3580) * (t - 3580) :
-                 t &lt; 3650 ? 8.059506e-10 :
-                 t &lt; 3660 ? 8.059506e-10 + (9.294629e-10 - 8.059506e-10) / (3660 - 3650) * (t - 3650) :
-                 t &lt; 3730 ? 9.294629e-10 :
-                 t &lt; 3740 ? 9.294629e-10 + (1.052975e-09 - 9.294629e-10) / (3740 - 3730) * (t - 3730) :
-                 t &lt; 3810 ? 1.052975e-09 :
-                 t &lt; 3820 ? 1.052975e-09 + (1.176488e-09 - 1.052975e-09) / (3820 - 3810) * (t - 3810) :
-                 t &lt; 3900 ? 1.176488e-09 :
-                 t &lt; 3910 ? 1.176488e-09 + (1.300000e-09 - 1.176488e-09) / (3910 - 3900) * (t - 3900) :
-                 t &lt; 4000 ? 1.300000e-09 :
-                 1.300000e-09)
-            </expression>
+				(t &lt; 2663.923 ? 1.03227e-06 :
+				 t &lt; 2689.323 ? 4.20422763e-06 :
+			     t &lt; 2706.473 ? 1.04732717e-06 :
+                 t &lt; 2800.123 ? 2.70980080e-06 :
+                 t &lt; 2942.223 ? 2.20319288e-05 :
+                 t &lt; 3081.073 ? 2.73892046e-05:
+                 t &lt; 3195.523 ? 3.44347213e-05:
+                 t &lt; 3308.323 ? 5.11701849e-05 :
+                 t &lt; 3466.023 ? 6.94618453e-05 :
+                 t &lt; 3575.273 ? 8.71195366e-05 :
+                 t &lt; 3665.573 ? 1.00001857e-04 :
+                 t &lt; 3740.823 ? 1.11927032e-04 :
+                 t &lt; 3819.173 ? 1.31219025e-04 :
+                 t &lt; 3908.773 ? 1.46891195e-04 :
+                 t &lt; 3991.373 ? 1.61563301e-04 :
+                 t &lt; 4149.97 ? 9.76304533e-07 :
+                 0)
+			</expression>			
         </parameter>
     </parameters>
     <process_variables>
@@ -187,7 +156,15 @@
             <name>pressure</name>
             <components>1</components>
             <order>1</order>
-            <initial_condition>p0</initial_condition>
+            <initial_condition>p_init</initial_condition>
+            <boundary_conditions>
+                <boundary_condition>
+                    <geometrical_set>stimtec</geometrical_set>
+                    <geometry>right</geometry>
+                    <type>Dirichlet</type>
+                    <parameter>p_right</parameter>
+                </boundary_condition>
+            </boundary_conditions>
             <source_terms>
                 <source_term>
                     <geometrical_set>stimtec</geometrical_set>
