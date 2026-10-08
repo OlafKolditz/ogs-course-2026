@@ -1,0 +1,483 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<OpenGeoSysProject>
+    <!-- DFN-Modell Pumpversuch BH10_20180716_40.6 (erzeugt mit make_prj_dfn_40.py)
+         k = 6.1176e-15 m2, S = 3.9788e-10 1/Pa (zeitgew. Mittel V4 40.6, 1750-2670 s),
+         Apertur = 1 m, Ratenanteil Kluft 1 = 0.5 
+         V4: k(t), S(t) an Injektionsrate gekoppelt (make_prj_dfn_40_kS_t.py) -->
+    <meshes>
+        <mesh>mesh.vtu</mesh>
+        <!-- Schnittpunkte BH10 x Kluftnetz (bulk_node_ids 270, 271) -->
+        <mesh>BH10_frac1.vtu</mesh>
+        <mesh>BH10_frac2.vtu</mesh>
+        <mesh>BH10_intersections.vtu</mesh>
+        <!-- Kluftraender (262 Knoten), Dirichlet p0 -->
+        <mesh>bc_rim.vtu</mesh>
+    </meshes>
+    <processes>
+        <process>
+            <name>LiquidFlow</name>
+            <type>LIQUID_FLOW</type>
+            <integration_order>2</integration_order>
+            <process_variables>
+                <process_variable>pressure</process_variable>
+            </process_variables>
+            <secondary_variables>
+                <secondary_variable internal_name="darcy_velocity" output_name="v"/>
+            </secondary_variables>
+            <equation_balance_type>mass</equation_balance_type>
+            <specific_body_force>0.0 0.0 -9.8</specific_body_force>
+            <aperture_size>
+                <parameter>fracture_thickness_const</parameter>
+            </aperture_size>
+        </process>
+    </processes>
+    <media>
+        <!-- <medium id="0">
+            <phases>
+                <phase>
+                    <type>AqueousLiquid</type>
+                    <properties>
+                        <property>
+                            <name>viscosity</name>
+                            <type>Constant</type>
+                            <value> 1.e-3 </value>
+                        </property>
+                        <property>
+                            <name>density</name>
+                            <type>Constant</type>
+                            <value> 1.e+3 </value>
+                        </property>
+                    </properties>
+                </phase>
+            </phases>
+            <properties>
+                <property>
+                    <name>permeability</name>
+                    <type>Parameter</type>
+                    <parameter_name>kappa_matrix</parameter_name>
+                </property>
+                <property>
+                    <name>reference_temperature</name>
+                    <type>Constant</type>
+                    <value>293.15</value>
+                </property>
+                <property>
+                    <name>porosity</name>
+                    <type>Parameter</type>
+                    <parameter_name>porosity_matrix</parameter_name>
+                </property>
+                <property>
+                    <name>storage</name>
+                    <type>Parameter</type>
+                    <parameter_name>storage_t</parameter_name>
+                </property>
+            </properties>
+        </medium> -->
+        <medium id="1">
+            <phases>
+                <phase>
+                    <type>AqueousLiquid</type>
+                    <properties>
+                        <property>
+                            <name>viscosity</name>
+                            <type>Constant</type>
+                            <value> 1.e-3 </value>
+                        </property>
+                        <property>
+                            <name>density</name>
+                            <type>Constant</type>
+                            <value> 1.e+3 </value>
+                        </property>
+                    </properties>
+                </phase>
+            </phases>
+            <properties>
+                <property>
+                    <name>permeability</name>
+                    <type>Parameter</type>
+                    <parameter_name>permeability_t</parameter_name>
+                </property>
+                <property>
+                    <name>reference_temperature</name>
+                    <type>Constant</type>
+                    <value>293.15</value>
+                </property>
+                <property>
+                    <name>porosity</name>
+                    <type>Parameter</type>
+                    <parameter_name>porosity_frac</parameter_name>
+                </property>
+                <property>
+                    <name>storage</name>
+                    <type>Parameter</type>
+                    <parameter_name>storage_t</parameter_name>
+                </property>
+            </properties>
+        </medium>
+        <medium id="2">
+            <phases>
+                <phase>
+                    <type>AqueousLiquid</type>
+                    <properties>
+                        <property>
+                            <name>viscosity</name>
+                            <type>Constant</type>
+                            <value> 1.e-3 </value>
+                        </property>
+                        <property>
+                            <name>density</name>
+                            <type>Constant</type>
+                            <value> 1.e+3 </value>
+                        </property>
+                    </properties>
+                </phase>
+            </phases>
+            <properties>
+                <property>
+                    <name>permeability</name>
+                    <type>Parameter</type>
+                    <parameter_name>permeability_t</parameter_name>
+                </property>
+                <property>
+                    <name>reference_temperature</name>
+                    <type>Constant</type>
+                    <value>293.15</value>
+                </property>
+                <property>
+                    <name>porosity</name>
+                    <type>Parameter</type>
+                    <parameter_name>porosity_frac</parameter_name>
+                </property>
+                <property>
+                    <name>storage</name>
+                    <type>Parameter</type>
+                    <parameter_name>storage_t</parameter_name>
+                </property>
+            </properties>
+        </medium>
+        <medium id="3">
+            <phases>
+                <phase>
+                    <type>AqueousLiquid</type>
+                    <properties>
+                        <property>
+                            <name>viscosity</name>
+                            <type>Constant</type>
+                            <value> 1.e-3 </value>
+                        </property>
+                        <property>
+                            <name>density</name>
+                            <type>Constant</type>
+                            <value> 1.e+3 </value>
+                        </property>
+                    </properties>
+                </phase>
+            </phases>
+            <properties>
+                <property>
+                    <name>permeability</name>
+                    <type>Parameter</type>
+                    <parameter_name>permeability_t</parameter_name>
+                </property>
+                <property>
+                    <name>reference_temperature</name>
+                    <type>Constant</type>
+                    <value>293.15</value>
+                </property>
+                <property>
+                    <name>porosity</name>
+                    <type>Parameter</type>
+                    <parameter_name>porosity_frac</parameter_name>
+                </property>
+                <property>
+                    <name>storage</name>
+                    <type>Parameter</type>
+                    <parameter_name>storage_t</parameter_name>
+                </property>
+            </properties>
+        </medium>
+        <medium id="4">
+            <phases>
+                <phase>
+                    <type>AqueousLiquid</type>
+                    <properties>
+                        <property>
+                            <name>viscosity</name>
+                            <type>Constant</type>
+                            <value> 1.e-3 </value>
+                        </property>
+                        <property>
+                            <name>density</name>
+                            <type>Constant</type>
+                            <value> 1.e+3 </value>
+                        </property>
+                    </properties>
+                </phase>
+            </phases>
+            <properties>
+                <property>
+                    <name>permeability</name>
+                    <type>Parameter</type>
+                    <parameter_name>permeability_t</parameter_name>
+                </property>
+                <property>
+                    <name>reference_temperature</name>
+                    <type>Constant</type>
+                    <value>293.15</value>
+                </property>
+                <property>
+                    <name>porosity</name>
+                    <type>Parameter</type>
+                    <parameter_name>porosity_frac</parameter_name>
+                </property>
+                <property>
+                    <name>storage</name>
+                    <type>Parameter</type>
+                    <parameter_name>storage_t</parameter_name>
+                </property>
+            </properties>
+        </medium>
+    </media>
+    <time_loop>
+        <processes>
+            <process ref="LiquidFlow">
+                <nonlinear_solver>basic_picard</nonlinear_solver>
+                <convergence_criterion>
+                    <type>PerComponentDeltaX</type>
+                    <norm_type>NORM2</norm_type>
+                    <reltols>1e-10</reltols>
+                </convergence_criterion>
+                <time_discretization>
+                    <type>BackwardEuler</type>
+                </time_discretization>
+                <time_stepping>
+                    <type>FixedTimeStepping</type>
+                    <t_initial>1750</t_initial>
+                    <t_end>2670</t_end>
+                    <timesteps>
+                        <pair>
+                            <repeat>184</repeat>
+                            <delta_t>5</delta_t>
+                        </pair>
+                    </timesteps>
+                </time_stepping>
+            </process>
+        </processes>
+        <output>
+            <type>VTK</type>
+            <prefix>Stimtec_DFN_40_kS_t_{:meshname}</prefix>
+            <timesteps>
+                <pair>
+                    <repeat> 1 </repeat>
+                    <each_steps> 1 </each_steps>
+                </pair>
+            </timesteps>
+            <meshes>
+                <mesh>mesh</mesh>
+                <mesh>BH10_intersections</mesh>
+            </meshes>
+            <variables>
+            </variables>
+            <suffix>_ts_{:timestep}_t_{:time}</suffix>
+        </output>
+    </time_loop>
+    <parameters>
+        <parameter>
+            <!-- k(t): Zeitfenster wie Injektion 40.6, k_min=2.9755e-16, k_max=8.2537e-15 m2 -->
+            <name>permeability_t</name>
+            <type>Function</type>
+            <expression>(t &lt; 1785.0 ? 2.97550000e-16 : t &lt; 1900.5 ? 8.40346585e-16 : t &lt; 2071.5 ? 1.40807885e-15 : t &lt; 2151.8 ? 2.35207505e-15 : t &lt; 2322.8 ? 4.33821693e-15 : t &lt; 2422.3 ? 6.35394009e-15 : t &lt; 2510.3 ? 8.25370000e-15 : 3.05956715e-16)</expression>
+        </parameter>
+        <parameter>
+            <!-- S(t): Zeitfenster wie Injektion 40.6, S_min=3.1385e-10, S_max=1.7696e-09 1/Pa -->
+            <name>storage_t</name>
+            <type>Function</type>
+            <expression>(t &lt; 1785.0 ? 3.13850000e-10 : t &lt; 1900.5 ? 4.13166394e-10 : t &lt; 2071.5 ? 5.17045311e-10 : t &lt; 2151.8 ? 6.89769866e-10 : t &lt; 2322.8 ? 1.05317755e-09 : t &lt; 2422.3 ? 1.42199777e-09 : t &lt; 2510.3 ? 1.76960000e-09 : 3.15388191e-10)</expression>
+        </parameter>
+        <parameter>
+            <name>fracture_thickness_const</name>
+            <type>Group</type>
+            <group_id_property>MaterialIDs</group_id_property>
+            <!-- <index_values>
+                <index>0</index>
+                <value>0.0</value>
+            </index_values> -->
+            <index_values>
+                <index>1</index>
+                <value>1</value>
+            </index_values>
+            <index_values>
+                <index>2</index>
+                <value>1</value>
+            </index_values>
+            <index_values>
+                <index>3</index>
+                <value>1</value>
+            </index_values>
+            <index_values>
+                <index>4</index>
+                <value>1</value>
+            </index_values>
+        </parameter>
+        <!-- <parameter>
+            <name>porosity_matrix</name>
+            <type>Constant</type>
+            <value>0.03</value>
+        </parameter> -->
+        <parameter>
+            <name>porosity_frac</name>
+            <type>Constant</type>
+            <value>1.</value>
+        </parameter>
+        <!-- <parameter>
+            <name>kappa_matrix</name>
+            <type>Constant</type>
+            <value>5.5e-19</value>
+        </parameter> -->
+        <parameter>
+            <name>kappa_frac1</name>
+            <type>Constant</type>
+            <value>6.1176e-15</value>
+        </parameter>
+        <parameter>
+            <name>kappa_frac2</name>
+            <type>Constant</type>
+            <value>6.1176e-15</value>
+        </parameter>
+        <parameter>
+            <name>kappa_frac3</name>
+            <type>Constant</type>
+            <value>6.1176e-15</value>
+        </parameter>
+        <parameter>
+            <name>kappa_frac4</name>
+            <type>Constant</type>
+            <value>6.1176e-15</value>
+        </parameter>
+        <parameter>
+            <name>p0</name>
+            <type>Function</type>
+            <!-- hydrostatic pressure with p_top = 1e5 at z_top = 313.648 -->
+            <expression>1e5 + 1000*9.81*(-313.648+z)</expression>
+        </parameter>
+        <parameter>
+            <name>p_borehole</name>
+            <type>Constant</type>
+            <value>1.88e6</value>
+        </parameter>
+        <parameter>
+            <name>p_borehole_curve</name>
+            <type>CurveScaled</type>
+            <curve>p_temporal</curve>
+            <parameter>p_borehole</parameter>
+        </parameter>
+        <parameter>
+            <name>q_in</name>
+            <type>Function</type>
+            <expression>(
+                t &lt; 1788.809	?	8.99E-07 :
+                t &lt; 1904.409	?	1.60E-04 :
+                t &lt; 2074.009	?	3.42E-04 :
+                t &lt; 2154.409	?	6.13E-04 :
+                t &lt; 2325.409 ?	1.21E-03 :
+                t &lt; 2424.809	?	1.81E-03 :
+                t &lt; 2511.409	?	2.38E-03 :
+                t &lt; 2669.81 ? 0 :
+                0
+                )
+            <!-- ((t &lt; 1794.21 ? 4.99798e-08 : (t &lt; 1909.81 ? 9.31177e-06 : (t &lt; 2079.81 ? 1.90107e-05 : (t &lt; 2160.01 ? 3.41504e-05 : (t &lt; 2330.81 ? 6.7659e-05 : (t &lt; 2430.41 ? 0.000101353 : (t &lt; 2517.81 ? 0.000133182 : (t &lt; 2669.81 ? 2.52185e-07 : 0.0)))))))) / 55.6) -->
+            </expression>
+        </parameter>
+        <parameter>
+            <!-- q_frac1: 0.5 * rho * q(t), q(t) = Injektionsstufen 40.6 [m3/s] -> [kg/s] -->
+            <name>q_frac1</name>
+            <type>Function</type>
+            <expression>(t &lt; 1785.0 ? 2.27540213e-05 : t &lt; 1900.5 ? 4.56624770e-03 : t &lt; 2071.5 ? 9.31846615e-03 : t &lt; 2151.8 ? 1.72202122e-02 : t &lt; 2322.8 ? 3.38452672e-02 : t &lt; 2422.3 ? 5.07179331e-02 : t &lt; 2510.3 ? 6.66199255e-02 : 9.31226625e-05)</expression>
+        </parameter>
+        <parameter>
+            <!-- q_frac2: 0.5 * rho * q(t), q(t) = Injektionsstufen 40.6 [m3/s] -> [kg/s] -->
+            <name>q_frac2</name>
+            <type>Function</type>
+            <expression>(t &lt; 1785.0 ? 2.27540213e-05 : t &lt; 1900.5 ? 4.56624770e-03 : t &lt; 2071.5 ? 9.31846615e-03 : t &lt; 2151.8 ? 1.72202122e-02 : t &lt; 2322.8 ? 3.38452672e-02 : t &lt; 2422.3 ? 5.07179331e-02 : t &lt; 2510.3 ? 6.66199255e-02 : 9.31226625e-05)</expression>
+        </parameter>
+
+        <parameter>
+            <name>one</name>
+            <type>Constant</type>
+            <value>1.0</value>
+        </parameter>
+    </parameters>
+    <curves>
+        <curve>
+            <name>p_temporal</name>
+            <coords>0.0  999.9 1000.0 1500 2000.0</coords>
+            <values>0.0  0.0 0.5 0.75 1.0</values>
+        </curve>
+    </curves>
+    <process_variables>
+        <process_variable>
+            <name>pressure</name>
+            <components>1</components>
+            <order>1</order>
+            <initial_condition>p0</initial_condition>
+            <boundary_conditions>
+                <!--boundary_condition>
+                    <mesh>BH10</mesh>
+                    <type>DirichletWithinTimeInterval</type>
+                    <parameter>p_borehole_curve</parameter>
+                    <time_interval>
+                        <start> 1000 </start>
+                        <end> 2000 </end>
+                    </time_interval>
+                </boundary_condition-->
+                <!-- bc_zmax gehoert zum 3D-Modell
+                <boundary_condition>
+                    <type>Dirichlet</type>
+                    <mesh>bc_zmax</mesh>
+                    <parameter>p0</parameter>
+                </boundary_condition> -->
+                <!-- ersetzt durch nodale Quellterme
+                <boundary_condition>
+                    <type>Neumann</type>
+                    <mesh>BH10</mesh>
+                    <parameter>q_in</parameter>
+                    <area_parameter>one</area_parameter>
+                </boundary_condition> -->
+                <boundary_condition>
+                    <type>Dirichlet</type>
+                    <mesh>bc_rim</mesh>
+                    <parameter>p0</parameter>
+                </boundary_condition>
+            </boundary_conditions>
+            <source_terms>
+                <source_term>
+                    <mesh>BH10_frac1</mesh>
+                    <type>Nodal</type>
+                    <parameter>q_frac1</parameter>
+                </source_term>
+                <source_term>
+                    <mesh>BH10_frac2</mesh>
+                    <type>Nodal</type>
+                    <parameter>q_frac2</parameter>
+                </source_term>
+            </source_terms>
+        </process_variable>
+    </process_variables>
+    <nonlinear_solvers>
+        <nonlinear_solver>
+            <name>basic_picard</name>
+            <type>Picard</type>
+            <max_iter>100</max_iter>
+            <linear_solver>general_linear_solver</linear_solver>
+        </nonlinear_solver>
+    </nonlinear_solvers>
+    <linear_solvers>
+        <linear_solver>
+            <name>general_linear_solver</name>
+            <eigen>
+                <solver_type>SparseLU</solver_type>
+                <scaling>true</scaling>
+            </eigen>
+        </linear_solver>
+    </linear_solvers>
+</OpenGeoSysProject>

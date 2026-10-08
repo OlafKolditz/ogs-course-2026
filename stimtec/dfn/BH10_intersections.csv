@@ -1,0 +1,3 @@
+fracture_MaterialID,mesh_node_id,x,y,z,dist_from_BH10_deep_end_m,BH10_point_index
+1,270,4595094.5722,5644196.6047,268.9331,5.423,2
+2,271,4595089.5745,5644188.3609,271.7744,15.473,6
