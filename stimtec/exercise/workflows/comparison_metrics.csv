@@ -1,0 +1,3 @@
+simulation,stage,t_from,t_to,n,RMSE_MPa,MAE_MPa,Bias_MPa,MaxAbs_MPa,NSE,r
+stimtec,total,1750,2670,185,1.16307,1.03449,-0.643184,2.04809,-0.399919,0.828754
+stimtec_bc_rightmid_kS_t,total,1750,2670,185,0.0974772,0.0686898,0.000356275,0.380671,0.990167,0.995072
