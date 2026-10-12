@@ -2,9 +2,9 @@ STIMTEC: this is the single fracture model approach (rectangle fracture)
 
 revison 1
 
-got the the stimted folder: ogs-course-2026 > stimtec
+got the the stimtec folder: ogs-course-2026 > stimtec
 
-here find the two folders for the respetive experiments: BH10_20180716_40.6 and BH10_20180716_51.6
+here find the two folders for the respective experiments: BH10_20180716_40.6 and BH10_20180716_51.6
 
 1) create a new directory results (by Windows Explorer or in the console with mkdir results
 
@@ -15,7 +15,7 @@ The subdirectory should be:
 
 2) go into directory simulation and run the ogs simulation, e.g.: ogs stimtec.prj
 
-3) go into directory workflow and the python-function: python compare_sim_meas_en.py
+3) go into directory workflow and call the python-function: python compare_sim_meas_en.py
 
 It will show all available results (pvd files) in folder results
 
