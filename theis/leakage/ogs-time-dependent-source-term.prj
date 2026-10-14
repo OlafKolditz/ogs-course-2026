@@ -114,7 +114,7 @@
         </processes>
         <output>
             <type>VTK</type>
-            <prefix>../results_leakage_time/theis2Dcircle</prefix>
+            <prefix>theis2Dcircle_leakage_time</prefix>
             <timesteps>
                 <pair>
                     <repeat>1</repeat>

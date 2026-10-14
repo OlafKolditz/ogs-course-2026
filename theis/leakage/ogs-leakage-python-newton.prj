@@ -119,7 +119,7 @@
         </processes>
         <output>
             <type>VTK</type>
-            <prefix>../results_leakage_python_newton/theis2Dcircle</prefix>
+            <prefix>theis2Dcircle_leakage_python_newton</prefix>
             <timesteps>
                 <pair>
                     <repeat>1</repeat>

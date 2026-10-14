@@ -1,5 +1,7 @@
-import ogstools as ot
+import subprocess
 from pathlib import Path
+
+import ogstools as ot
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -23,8 +25,23 @@ BASE_DIR = Path(__file__).resolve().parent
 xn = 100
 time_vals = [8.64, 86.4, 1728.0, 24192.0, 172800.0, 604800.0, 864000.0]
 
-ms_basic = ot.MeshSeries(str(BASE_DIR / "results_leakage_time" / "theis2Dcircle.pvd"))
-ms_leakage = ot.MeshSeries(str(BASE_DIR / "results_leakage" / "theis2Dcircle.pvd"))
+# Each case writes its results next to its project file (see <prefix> in
+# the .prj files). If results are missing, OGS is run in that folder first.
+CASES = {
+    "basic": (BASE_DIR / "basic", "ogs-basic.prj", "theis2Dcircle_basic.pvd"),
+    "leakage": (BASE_DIR / "leakage", "ogs-leakage.prj", "theis2Dcircle_leakage.pvd"),
+}
+
+
+def load_case(name, rerun=False):
+    folder, prj, pvd = CASES[name]
+    if rerun or not (folder / pvd).exists():
+        subprocess.run(["ogs", prj, "-o", str(folder)], cwd=folder, check=True)
+    return ot.MeshSeries(str(folder / pvd))
+
+
+ms_basic = load_case("basic")
+ms_leakage = load_case("leakage")
 pressure = ot.variables.pressure.replace(data_unit="m", output_unit="m", output_name="hydraulic head")
 
 #-#############################
@@ -42,7 +59,7 @@ probe_leakage = ms_leakage.probe(xaxis)
 ot.plot.line(probe_leakage[1:], "x", pressure, ax=ax[0],
              linestyle="--", fontsize=14)
 
-ax[0].set_title("Profiles at different times (time-dependent leakage solid, leakage dashed)")
+ax[0].set_title("Profiles at different times (basic solid, leakage dashed)")
 ax[0].set_ylabel("hydraulic head / drawdown [m]")
 
 #-#############################
@@ -59,7 +76,7 @@ point_series_leakage = ms_leakage.probe(points_observation)
 ot.plot.line(point_series_leakage, "time", pressure, ax=ax[1],
              linestyle="--", fontsize=14)
 
-ax[1].set_title("Temporal evolution (time-dependent leakage solid, leakage dashed)")
+ax[1].set_title("Temporal evolution (basic solid, leakage dashed)")
 ax[1].set_xscale("log")
 ax[1].set_ylabel("hydraulic head / drawdown [m]")
 
