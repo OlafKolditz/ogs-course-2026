@@ -22,7 +22,7 @@
 
 # %%
 import json
-import shutil
+import subprocess
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -115,10 +115,18 @@ def theis_drawdown(t, S, T, Q, r):
 
 
 # %%
+# Project folder: the folder containing this script and axisym_theis.prj.
+# All OGS results are written into this folder.
+try:
+    model_dir = Path(__file__).resolve().parent
+except NameError:  # running interactively (e.g. Jupyter)
+    model_dir = Path.cwd()
+
+# %%
 # Aquifer properties (storativity S [-], transmissivity T [m2/s]),
 # dynamic parameters (pumping rate Q [m3/s]) and time values (s)
 # are read from params.json
-params = json.loads(Path("params.json").read_text())
+params = json.loads((model_dir / "params.json").read_text())
 S = params["S"]
 T = params["T"]
 Q = params["Q"]
@@ -137,19 +145,25 @@ r = np.arange(1, 41, 1)
 s_all = np.column_stack([theis_drawdown(t, S, T, Q, r) for t in time_vals])
 
 # %%
-# Run OGS simulation, writing results to the _out subdirectory.
-# ogstools mirrors the whole project folder into _out/model/meshes, so a
-# leftover _out from a previous run would otherwise be nested into itself
-# again and again; removing it first keeps the output directory flat.
-out_dir = Path("_out")
-if out_dir.exists():
-    shutil.rmtree(out_dir)
+# Run OGS simulation, writing results directly into the project folder
+# (where axisym_theis.prj is located). Results of a previous run with the
+# same output prefix are removed first so that the .pvd file only refers
+# to the current results.
+prefix = "liquid_pcs"
+for f in model_dir.glob(f"{prefix}*.vtu"):
+    f.unlink()
+for f in model_dir.glob(f"{prefix}*.pvd"):
+    f.unlink()
 
-sim = ot.Model(project="axisym_theis.prj").run(out_dir, overwrite=True)
+subprocess.run(
+    ["ogs", "axisym_theis.prj", "-o", str(model_dir)],
+    cwd=model_dir,
+    check=True,
+)
 
 # %%
 # Load simulation results
-ms = sim.meshseries
+ms = ot.MeshSeries(model_dir / f"{prefix}.pvd")
 
 # %%
 # Extract probe at y=z=0 and x=1..40
